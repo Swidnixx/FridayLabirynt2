@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,12 @@ public class PlayerMovement : MonoBehaviour
 
     CharacterController controller;
 
+    [SerializeField] Transform groundSensor;
+    [SerializeField] LayerMask groundLayer;
+
+    bool grounded;
+    private float velocity;
+
     private void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -16,8 +23,34 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         Movement();
+        GroundSensor();
+        Gravity();
     }
 
+    void GroundSensor()
+    {
+        RaycastHit hit;
+        grounded = Physics.Raycast(groundSensor.position, Vector3.down, out hit, 0.4f, groundLayer);
+
+        if(grounded)
+        {
+
+            switch(hit.collider.tag)
+            {
+                case "FastFloor":
+                    speed = 16;
+                    break;
+
+                case "SlowFloor":
+                    speed = 4;
+                    break;
+
+                default:
+                    speed = 10;
+                    break;
+            }
+        }
+    }
     void Movement()
     {
         float inputX = Input.GetAxis("Horizontal");
@@ -25,5 +58,20 @@ public class PlayerMovement : MonoBehaviour
 
         Vector3 movement = transform.forward * inputY + transform.right * inputX;
         controller.Move( movement * speed * Time.deltaTime );
+    }
+    void Gravity()
+    {
+        if(grounded)
+        {
+            velocity = 0f;
+            return;
+        }
+
+        if(velocity < 55)
+        {
+            velocity += 9.81f * Time.deltaTime;
+        }
+
+        controller.Move( Vector3.down * velocity * Time.deltaTime );
     }
 }
