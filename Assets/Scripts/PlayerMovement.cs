@@ -19,12 +19,18 @@ public class PlayerMovement : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
     }
-
     private void Update()
     {
         Movement();
         GroundSensor();
         Gravity();
+    }
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if(hit.collider.CompareTag("Pickup"))
+        {
+            hit.gameObject.GetComponent<Pickup>().Pick();
+        }
     }
 
     void GroundSensor()
