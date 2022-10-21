@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Key;
 
 public class GameManager : MonoBehaviour
 {
@@ -24,7 +25,9 @@ public class GameManager : MonoBehaviour
     bool paused;
 
     int diamonds = 0;
-    int keys = 0;
+    int redKeys = 0;
+    int greenKeys = 0;
+    int goldenKeys = 0;
 
     //Unity Callbacks
     private void Start()
@@ -50,7 +53,7 @@ public class GameManager : MonoBehaviour
     void TimerTick()
     {
         time--;
-        Debug.Log("Time: " + time);
+        //Debug.Log("Time: " + time);
 
         if(time <= 0)
         {
@@ -80,13 +83,30 @@ public class GameManager : MonoBehaviour
     {
         diamonds++;
     }
-    public void AddKey()
+    public void AddKey(Key.KeyColor keyColor)
     {
-        keys++;
+        switch(keyColor)
+        {
+            case KeyColor.Red:
+                redKeys++;
+                break;
+
+            case KeyColor.Green:
+                greenKeys++;
+                break; ;
+
+            case KeyColor.Gold:
+                goldenKeys++;
+                break;
+        }
     }
     public void FreezeTime(int time)
     {
         CancelInvoke(nameof(TimerTick));
         InvokeRepeating(nameof(TimerTick), time, 1);
+    }
+    public void AddTime(int time)
+    {
+        this.time += time;
     }
 }
