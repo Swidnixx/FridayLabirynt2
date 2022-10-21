@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class PortalTeleport : MonoBehaviour
 {
-    [SerializeField] Transform player;
-    [SerializeField] Transform receiver;
+    [HideInInspector] public Transform player;
+    [HideInInspector] public Transform receiver;
 
     bool playerIsPassing;
 
@@ -21,6 +21,7 @@ public class PortalTeleport : MonoBehaviour
             if(dotProduct < 0)
             {
                 player.position = receiver.position;
+                player.forward = receiver.up;
             }
         }
     }

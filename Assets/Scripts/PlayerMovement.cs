@@ -24,6 +24,11 @@ public class PlayerMovement : MonoBehaviour
         Movement();
         GroundSensor();
         Gravity();
+        if(Input.GetKeyDown(KeyCode.Space) && grounded)
+        {
+            Debug.Log("Skok");
+            velocity = -10;
+        }
     }
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
@@ -67,7 +72,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void Gravity()
     {
-        if(grounded)
+        if(grounded && velocity > 0)
         {
             velocity = 0f;
             return;
