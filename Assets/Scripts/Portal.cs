@@ -5,6 +5,7 @@ using UnityEngine;
 public class Portal : MonoBehaviour
 {
     public Portal linkedPortal;
+    public MeshRenderer myRenderPlane;
     Camera playerCam;
     Camera myCamera;
 
@@ -22,6 +23,10 @@ public class Portal : MonoBehaviour
     private void Start()
     {
         myTeleport.receiver = linkedPortal.myTeleport.transform;
+
+        RenderTexture rt = new RenderTexture(Screen.width, Screen.height, 0);
+        myCamera.targetTexture = rt;
+        linkedPortal.myRenderPlane.material.SetTexture("_MainTex", rt);
     }
 
     private void Update()
