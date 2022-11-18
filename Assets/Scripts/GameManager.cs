@@ -25,9 +25,9 @@ public class GameManager : MonoBehaviour
     bool paused;
 
     int diamonds = 0;
-    int redKeys = 0;
-    int greenKeys = 0;
-    int goldenKeys = 0;
+    public int redKeys = 0;
+    public int greenKeys = 0;
+    public int goldenKeys = 0;
 
     //Unity Callbacks
     private void Start()
