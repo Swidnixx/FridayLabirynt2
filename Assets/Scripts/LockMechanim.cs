@@ -10,6 +10,10 @@ public class LockMechanim : MonoBehaviour
     Animator keyAnimator;
     bool playerInRange;
 
+    private void Start()
+    {
+        keyAnimator = GetComponent<Animator>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -29,13 +33,32 @@ public class LockMechanim : MonoBehaviour
         }
     }
 
+
     private void Update()
     {
         bool playerWantsToOpen = Input.GetKeyDown(KeyCode.E);
         bool playerHasProperKey = CheckKey();
         if(playerWantsToOpen && playerInRange && playerHasProperKey)
         {
-            OpenClose(true);
+            UseKey();
+            keyAnimator.SetTrigger("Unlock");
+        }
+    }
+    void UseKey()
+    {
+        switch (keyColor)
+        {
+            case Key.KeyColor.Gold:
+                GameManager.Instance.goldenKeys--;
+                break;
+
+            case Key.KeyColor.Green:
+                GameManager.Instance.greenKeys--;
+                break;
+
+            case Key.KeyColor.Red:
+                GameManager.Instance.redKeys--;
+                break;
         }
     }
 
@@ -55,11 +78,11 @@ public class LockMechanim : MonoBehaviour
         return false;
     }
 
-    void OpenClose(bool open)
+    public void Open()
     {
         foreach (DoorMechanim d in door)
         {
-            d.open = open;
+            d.open = true;
         }
     }
 }
