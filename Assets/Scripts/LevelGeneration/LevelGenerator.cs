@@ -9,9 +9,13 @@ public class LevelGenerator : MonoBehaviour
 
     public float offset = 5;
 
-    private void Start()
+    public void ClearLevel()
     {
-        GenerateLevel();
+        Transform[] children = GetComponentsInChildren<Transform>();
+        for(int i=children.Length-1; i>0; i--)
+        {
+            DestroyImmediate(children[i].gameObject);
+        }
     }
 
     public void GenerateLevel()
@@ -25,7 +29,7 @@ public class LevelGenerator : MonoBehaviour
         }
     }
 
-    public void SpawnTile(int x, int z)
+    void SpawnTile(int x, int z)
     {
         Color pixel = picture.GetPixel(x, z);
         foreach(ColorMapping m in mappings)
@@ -36,6 +40,7 @@ public class LevelGenerator : MonoBehaviour
                 Instantiate(m.prefab,pos, Quaternion.identity, transform);
             }
         }
-
     }
+
+   
 }
